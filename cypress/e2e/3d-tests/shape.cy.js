@@ -60,16 +60,22 @@ describe('3D Shape Creation Testing', () => {
                 cy.get('input#color').should('be.visible');
             })
 
-            it("Position Input Fields should Accept Numbers", () => {
-                cy.get('input#pos_x').type(`${maxInteger.toString()}{enter}`).should('have.value', maxInteger.toString());
+            it("Position Input Fields should Accept MAX_SAFE_INTEGER", () => {
+                cy.get('input#pos_x').type(`${maxInteger.toString()}{enter}`).should('have.value', "0"+maxInteger.toString());
+                cy.get('input#pos_y').type(`${maxInteger.toString()}{enter}`).should('have.value', "0"+maxInteger.toString());
+                cy.get('input#pos_z').type(`${maxInteger.toString()}{enter}`).should('have.value', "0"+maxInteger.toString());
+            })
+
+            it("Position Input Fields should Accept Negative Integer", () => {
                 cy.get('input#pos_x').type(`${negativeInteger.toString()}{enter}`).should('have.value', negativeInteger.toString());
-                cy.get('input#pos_x').type(`${zero.toString()}{enter}`).should('have.value', zero.toString());
-                cy.get('input#pos_y').type(`${maxInteger.toString()}{enter}`).should('have.value', maxInteger.toString());
                 cy.get('input#pos_y').type(`${negativeInteger.toString()}{enter}`).should('have.value', negativeInteger.toString());
-                cy.get('input#pos_y').type(`${zero.toString()}{enter}`).should('have.value', zero.toString());
-                cy.get('input#pos_z').type(`${maxInteger.toString()}{enter}`).should('have.value', maxInteger.toString());
-                cy.get('input#pos_z').type(`${negativeInteger.toString()}{enter}`).should('have.value', negativeInteger.toString());
-                cy.get('input#pos_z').type(`${zero.toString()}{enter}`).should('have.value', zero.toString());
+                cy.get('input#pos_z').type(`${negativeInteger.toString()}{enter}`).should('have.value', negativeInteger.toString())
+            })
+
+            it("Position Input Fields should Accept Zero Value", () => {
+                cy.get('input#pos_x').type(`${zero.toString()}{enter}`).should('have.value', "0"+zero.toString());
+                cy.get('input#pos_y').type(`${zero.toString()}{enter}`).should('have.value', "0"+zero.toString());
+                cy.get('input#pos_z').type(`${zero.toString()}{enter}`).should('have.value', "0"+zero.toString());
             })
 
             it("Color Input Field Should Accept Hex Values", () => {
@@ -82,16 +88,22 @@ describe('3D Shape Creation Testing', () => {
 
     describe("Failure Cases", () => {
         describe("Check UI Elements", () => {
-            it("Position Input Fields should Fail On Wrong Input", () => {
-                cy.get('input#pos_x').type(word).should('have.value', zero);
-                cy.get('input#pos_x').type("" + decimal).should('have.value', zero);
-                cy.get('input#pos_x').type(white).should('have.value', zero);
-                cy.get('input#pos_y').type(word).should('have.value', zero);
-                cy.get('input#pos_y').type("" + decimal).should('have.value', zero);
-                cy.get('input#pos_y').type(white).should('have.value', zero);
-                cy.get('input#pos_z').type(word).should('have.value', zero);
-                cy.get('input#pos_z').type("" + decimal).should('have.value', zero);
-                cy.get('input#pos_z').type(white).should('have.value', zero);
+            it("Position Input Fields should Fail On Text Input", () => {
+                cy.get('input#pos_x').type(word).should('have.value', zero.toString());
+                cy.get('input#pos_y').type(word).should('have.value', zero.toString());
+                cy.get('input#pos_z').type(word).should('have.value', zero.toString());
+            })
+
+            it("Position Input Fields should Fail on Decimal Input", () => {
+                cy.get('input#pos_x').type("" + decimal).should('have.value', "0"+zero.toString());
+                cy.get('input#pos_y').type("" + decimal).should('have.value', "0"+zero.toString());
+                cy.get('input#pos_z').type("" + decimal).should('have.value', "0"+zero.toString());
+            })
+
+            it("Position input Fields should Fail on Hex Value Input", () => {
+                cy.get('input#pos_x').type(white).should('have.value', zero.toString());
+                cy.get('input#pos_y').type(white).should('have.value', zero.toString());
+                cy.get('input#pos_z').type(white).should('have.value', zero.toString());
             })
 
             it("Color Input Field should Fail On Wrong Input", () => {
