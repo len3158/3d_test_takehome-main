@@ -27,6 +27,7 @@ describe('3D Shape Creation Testing', () => {
     beforeEach(() => {
             cy.visit('http://localhost:8080/');
             cy.get('.loader').should('not.exist') // wait for page to load
+            cy.get('#view', { timeout: 1000 }).should('be.visible');
         }
     )
 
@@ -101,34 +102,26 @@ describe('3D Shape Creation Testing', () => {
 
         describe('Input Field Events', () => {
             it('should call the change event on pos_x input', () => {
-                // Select the input field
                 cy.get('#pos_x')
                     .as('numberInput')
                     .then(($input) => {
-                        // Attach a listener for the change event
                         $input.on('change', (event) => {
                             const eventValue = event.target.value;
-                            // Perform assertions if necessary
                             expect(eventValue).to.equal(one.toString());
                         });
                     });
-                // Trigger the change event by setting a new value
                 cy.get('@numberInput').clear().type('1').trigger('change');
             });
 
             it('should call the change event on pos_y input', () => {
-                // Select the input field
                 cy.get('#pos_y')
                     .as('numberInput')
                     .then(($input) => {
-                        // Attach a listener for the change event
                         $input.on('change', (event) => {
                             const eventValue = event.target.value;
-                            // Perform assertions if necessary
                             expect(eventValue).to.equal(one.toString());
                         });
                     });
-                // Trigger the change event by setting a new value
                 cy.get('@numberInput').clear().type('1').trigger('change');
             });
 
@@ -136,14 +129,53 @@ describe('3D Shape Creation Testing', () => {
                 cy.get('#pos_z')
                     .as('numberInput')
                     .then(($input) => {
-                        // Attach a listener for the change event
                         $input.on('change', (event) => {
                             const eventValue = event.target.value;
                             expect(eventValue).to.equal(one.toString());
                         });
                     });
-                // Trigger the change event by setting a new value
                 cy.get('@numberInput').clear().type('1').trigger('change');
+            });
+        });
+
+        describe('Shape Creation Test', () => {
+            it('should create a sphere and add it to window.shapes', () => {
+                const addSphereStub = cy.stub();
+                cy.window().then((win) => {
+                    win.addEventListener('click', addSphereStub);
+                });
+
+                cy.get('#add_sphere').click();
+
+                cy.wrap(addSphereStub).should((stub) => {
+                    const eventDetail = stub.args[0][0].detail;
+                    console.log(eventDetail);
+                    // expect(eventDetail.type).to.equal('click');
+                });
+                cy.window().its('shapes').should('have.length', 1);
+                cy.window().its('shapes').then((shapes) => {
+                    expect(shapes[0].type).to.equal('sphere');
+                });
+            });
+
+            it('should create a cube and add it to window.shapes', () => {
+                const addBoxStub = cy.stub();
+                cy.window().then((win) => {
+                    win.addEventListener('click', addBoxStub);
+                });
+
+                cy.get('#add_cube').click();
+
+                cy.wrap(addBoxStub).should('have.been.calledOnce');
+
+                cy.wrap(addBoxStub).should((stub) => {
+                    const eventDetail = stub.args[0][0].detail;
+                    // expect(eventDetail.type).to.equal('click');
+                });
+                cy.window().its('shapes').should('have.length', 1);
+                cy.window().its('shapes').then((shapes) => {
+                    expect(shapes[0].type).to.equal('cube');
+                });
             });
         });
     })
