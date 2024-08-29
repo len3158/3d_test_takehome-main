@@ -98,6 +98,54 @@ describe('3D Shape Creation Testing', () => {
                 cy.get("input#color").should('have.value', black);
             })
         })
+
+        describe('Input Field Events', () => {
+            it('should call the change event on pos_x input', () => {
+                // Select the input field
+                cy.get('#pos_x')
+                    .as('numberInput')
+                    .then(($input) => {
+                        // Attach a listener for the change event
+                        $input.on('change', (event) => {
+                            const eventValue = event.target.value;
+                            // Perform assertions if necessary
+                            expect(eventValue).to.equal(one.toString());
+                        });
+                    });
+                // Trigger the change event by setting a new value
+                cy.get('@numberInput').clear().type('1').trigger('change');
+            });
+
+            it('should call the change event on pos_y input', () => {
+                // Select the input field
+                cy.get('#pos_y')
+                    .as('numberInput')
+                    .then(($input) => {
+                        // Attach a listener for the change event
+                        $input.on('change', (event) => {
+                            const eventValue = event.target.value;
+                            // Perform assertions if necessary
+                            expect(eventValue).to.equal(one.toString());
+                        });
+                    });
+                // Trigger the change event by setting a new value
+                cy.get('@numberInput').clear().type('1').trigger('change');
+            });
+
+            it('should call the change event on pos_z input', () => {
+                cy.get('#pos_z')
+                    .as('numberInput')
+                    .then(($input) => {
+                        // Attach a listener for the change event
+                        $input.on('change', (event) => {
+                            const eventValue = event.target.value;
+                            expect(eventValue).to.equal(one.toString());
+                        });
+                    });
+                // Trigger the change event by setting a new value
+                cy.get('@numberInput').clear().type('1').trigger('change');
+            });
+        });
     })
 
     describe("Failure Cases", () => {
