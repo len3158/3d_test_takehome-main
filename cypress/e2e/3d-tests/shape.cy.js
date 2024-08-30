@@ -147,11 +147,6 @@ describe('3D Shape Creation Testing', () => {
 
                 cy.get('#add_sphere').click();
 
-                cy.wrap(addSphereStub).should((stub) => {
-                    const eventDetail = stub.args[0][0].detail;
-                    console.log(eventDetail);
-                    // expect(eventDetail.type).to.equal('click');
-                });
                 cy.window().its('shapes').should('have.length', 1);
                 cy.window().its('shapes').then((shapes) => {
                     expect(shapes[0].type).to.equal('sphere');
@@ -168,10 +163,90 @@ describe('3D Shape Creation Testing', () => {
 
                 cy.wrap(addBoxStub).should('have.been.calledOnce');
 
-                cy.wrap(addBoxStub).should((stub) => {
-                    const eventDetail = stub.args[0][0].detail;
-                    // expect(eventDetail.type).to.equal('click');
+                cy.window().its('shapes').should('have.length', 1);
+                cy.window().its('shapes').then((shapes) => {
+                    expect(shapes[0].type).to.equal('cube');
                 });
+            });
+
+            it('should create a cube and a sphere and add it to window.shapes', () => {
+                const addBoxStub = cy.stub();
+                cy.window().then((win) => {
+                    win.addEventListener('click', addBoxStub);
+                });
+
+                const addSphereStub = cy.stub();
+                cy.window().then((win) => {
+                    win.addEventListener('click', addSphereStub);
+                });
+
+                cy.get('#add_cube').click();
+                cy.wait(500); // Let the scene draw the shape
+                cy.get('#add_sphere').click();
+
+                cy.wrap(addBoxStub).should('have.been.called');
+                cy.wrap(addSphereStub).should('have.been.called');
+
+                cy.window().its('shapes').should('have.length', 2);
+                cy.window().its('shapes').then((shapes) => {
+                    expect(shapes[0].type).to.equal('cube');
+                    expect(shapes[1].type).to.equal('sphere');
+                });
+            });
+
+            it('should create a sphere, add it to window.shapes then remove it from queue', () => {
+                const addSphereStub = cy.stub();
+                cy.window().then((win) => {
+                    win.addEventListener('click', addSphereStub);
+                });
+
+                const removeLastStub = cy.stub();
+                cy.window().then((win) => {
+                    win.addEventListener('click', removeLastStub);
+                });
+
+                cy.get('#add_sphere').click();
+
+                cy.window().its('shapes').should('have.length', 1);
+                cy.window().its('shapes').then((shapes) => {
+                    expect(shapes[0].type).to.equal('sphere');
+                });
+
+                cy.get('#remove_all').click();
+                cy.window().its('shapes').should('have.length', 0);
+            });
+
+            it('should create a cube and sphere, add it to window.shapes then last from queue', () => {
+                const addBoxStub = cy.stub();
+                cy.window().then((win) => {
+                    win.addEventListener('click', addBoxStub);
+                });
+
+                const addSphereStub = cy.stub();
+                cy.window().then((win) => {
+                    win.addEventListener('click', addSphereStub);
+                });
+
+                const removeLastStub = cy.stub();
+                cy.window().then((win) => {
+                    win.addEventListener('click', removeLastStub);
+                });
+
+                cy.get('#add_cube').click();
+                cy.wait(500); // Let the scene draw the shape
+                cy.get('#add_sphere').click();
+
+                cy.wrap(addBoxStub).should('have.been.called');
+                cy.wrap(addSphereStub).should('have.been.called');
+
+                cy.window().its('shapes').should('have.length', 2);
+                cy.window().its('shapes').then((shapes) => {
+                    expect(shapes[0].type).to.equal('cube');
+                    expect(shapes[1].type).to.equal('sphere');
+                });
+
+                cy.get('#remove_last').click();
+
                 cy.window().its('shapes').should('have.length', 1);
                 cy.window().its('shapes').then((shapes) => {
                     expect(shapes[0].type).to.equal('cube');
