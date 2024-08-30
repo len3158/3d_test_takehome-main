@@ -1,9 +1,3 @@
-import "../../support/commands";
-
-const posX = 0;
-const posY = 0;
-const posZ = 0;
-const color = 0x0;
 const maxInteger = Number.MAX_SAFE_INTEGER;
 const negativeInteger = -1;
 const zero = 0;
@@ -13,15 +7,6 @@ const red = "#ff0000";
 const black = "#000000";
 const word = "abc";
 const decimal = 0.0;
-
-const options = {
-    color: color,
-    position: {
-        x: posX,
-        y: posY,
-        z: posZ
-    }
-};
 
 describe('3D Shape Creation Testing', () => {
     beforeEach(() => {
@@ -34,12 +19,6 @@ describe('3D Shape Creation Testing', () => {
     afterEach(() => {
         cy.clearAllSessionStorage()
     })
-
-    describe('Custom Commands', () => {
-        it('should call helloWorld', () => {
-            cy.helloWorld();
-        });
-    });
 
     describe("Success Cases", () => {
         describe("Check UI Elements", () => {
