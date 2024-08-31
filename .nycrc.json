@@ -5,6 +5,7 @@
   "extension" : [".js"],
   "exclude": [
     "cypress/**/*.*",
-    "test/**/*.*"
+    "test/**/*.*",
+    "dist/*"
   ]
 }
