@@ -12,8 +12,7 @@
     "test-coverage": "cypress run --browser chrome --env coverage=true",
     "test:coverage:report": "npx nyc report --reporter=html",
     "test-cy": "npx cypress run --browser chrome",
-    "test-open": "npx cypress open",
-    "report": "npx nyc report --reporter=html "
+    "test-open": "npx cypress open"
   },
   "keywords": [],
   "author": "",
