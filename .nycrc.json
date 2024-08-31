@@ -1,0 +1,10 @@
+{
+  "extends": "@istanbuljs/nyc-config-babel",
+  "reporter": ["html", "text-summary"],
+  "report-dir": "./coverage",
+  "extension" : [".js"],
+  "exclude": [
+    "cypress/**/*.*",
+    "test/**/*.*"
+  ]
+}

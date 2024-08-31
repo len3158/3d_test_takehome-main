@@ -4,17 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --config webpack.config.js",
     "dev": "webpack serve --host 0.0.0.0",
-    "test": "npx cypress run --browser chrome"
+    "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha test/*.js",
+    "test-cy": "npx cypress run --browser chrome",
+    "report": "npx nyc report --reporter=html "
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.25.6",
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/register": "^7.24.6",
     "@cypress/code-coverage": "^3.12.46",
     "@istanbuljs/nyc-config-babel": "^3.0.0",
     "babel-plugin-istanbul": "^7.0.0",
+    "chai": "^5.1.1",
+    "cross-env": "^7.0.3",
     "cypress": "^13.14.0",
+    "mocha": "^10.7.3",
     "nyc": "^17.0.0",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4",
@@ -22,5 +32,23 @@
   },
   "dependencies": {
     "three": "^0.163.0"
+  },
+  "nyc": {
+    "require": [
+      "@babel/register"
+    ],
+    "report-dir": "coverage",
+    "reporter": [
+      "lcov",
+      "text",
+      "json"
+    ],
+    "all": true,
+    "include": [
+      "src/*.js",
+      "cypress/e2e/*cy.js"
+    ],
+    "sourceMap": false,
+    "instrument": true
   }
 }

@@ -1,8 +1,0 @@
-{
-  "extends": "@istanbuljs/nyc-config-babel",
-  "exclude": [
-    "test/**/*.*"
-  ],
-  "reporter": ["html", "text-summary"],
-  "report-dir": "./coverage"
-}

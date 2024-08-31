@@ -1,1 +1,1 @@
-// require('./commands')
+import '@cypress/code-coverage/support'
