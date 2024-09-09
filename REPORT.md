@@ -1,6 +1,6 @@
 ## Setup
 
-Welcome to this short report. The tests covers approx 84% of the total code.
+Welcome to this short report. The tests covers approx 98% of the total code.
 
 To run the tests yourself from scratch, simply execute the following commands:
 
