@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "build-babel": "babel src/index.js -d src",
+    "build-babel": "babel src/index.js -d dist",
     "dev": "webpack serve --host 0.0.0.0",
     "clean": "rm -rf dist/bundle.js; rm -rf node_modules",
     "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha test/*.js",
